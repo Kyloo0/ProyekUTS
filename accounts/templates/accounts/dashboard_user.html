@@ -1,15 +1,207 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}User Dashboard{% endblock %}
+{% block title %}Dashboard - {{ request.user.username }}{% endblock %}
 
 {% block content %}
-<div class="text-center mt-16">
-  <h1 class="text-3xl font-bold mb-2">Selamat datang, {{ request.user.username }}!</h1>
-  <p class="text-gray-600 mb-6">Role: {{ request.user.role }}</p>
+{% include 'navbar.html' %}
 
-  <button onclick="logoutUser()" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 transition">
-    Logout
-  </button>
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-20">
+    <div class="container mx-auto px-6 py-8">
+        <!-- Welcome Section -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-8 border border-gray-700 mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2">Welcome back, {{ request.user.username }}!</h1>
+                    <p class="text-xl text-gray-300">Ready to stay active and connect with fellow sports enthusiasts?</p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-full px-6 py-3">
+                        <span class="text-white font-semibold">{{ request.user.role|title }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <a href="/threads/" class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 hover:from-blue-500/30 hover:to-blue-600/30 border border-blue-500/30 rounded-xl p-6 transition-all duration-300 transform hover:scale-105 group">
+                <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Threads</h3>
+                <p class="text-gray-400">Share experiences and connect with the community</p>
+            </a>
+
+            <a href="/booking-venue/" class="bg-gradient-to-br from-green-500/20 to-green-600/20 hover:from-green-500/30 hover:to-green-600/30 border border-green-500/30 rounded-xl p-6 transition-all duration-300 transform hover:scale-105 group">
+                <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Book Venue</h3>
+                <p class="text-gray-400">Find and reserve sports facilities</p>
+            </a>
+
+            <a href="/matches/" class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 hover:from-purple-500/30 hover:to-purple-600/30 border border-purple-500/30 rounded-xl p-6 transition-all duration-300 transform hover:scale-105 group">
+                <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Find Matches</h3>
+                <p class="text-gray-400">Join or create sports events</p>
+            </a>
+
+            <a href="/liveChat/" class="bg-gradient-to-br from-pink-500/20 to-pink-600/20 hover:from-pink-500/30 hover:to-pink-600/30 border border-pink-500/30 rounded-xl p-6 transition-all duration-300 transform hover:scale-105 group">
+                <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Live Chat</h3>
+                <p class="text-gray-400">Connect with players in real-time</p>
+            </a>
+        </div>
+
+        <!-- Activity Summary -->
+        <div class="grid lg:grid-cols-3 gap-8 mb-12">
+            <!-- Profile Stats -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    Your Profile
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Username:</span>
+                        <span class="text-white">{{ request.user.username }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Email:</span>
+                        <span class="text-white">{{ request.user.email }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Role:</span>
+                        <span class="text-white">{{ request.user.role|title }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Joined:</span>
+                        <span class="text-white">{{ request.user.date_joined|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+                <a href="/profile/" class="inline-block mt-4 text-blue-400 hover:text-blue-300 font-medium">Edit Profile →</a>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Activity Summary
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Threads Created:</span>
+                        <span class="text-white">{{ request.user.threads_created|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Matches Joined:</span>
+                        <span class="text-white">{{ request.user.matches_joined|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Venues Booked:</span>
+                        <span class="text-white">{{ request.user.venues_booked|default:0 }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Chat Groups:</span>
+                        <span class="text-white">{{ request.user.chat_groups|default:0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    Platform Stats
+                </h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Total Users:</span>
+                        <span class="text-white">1,234</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Active Matches:</span>
+                        <span class="text-white">89</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Available Venues:</span>
+                        <span class="text-white">156</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Live Chats:</span>
+                        <span class="text-white">23</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+            <h3 class="text-xl font-semibold mb-6 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Recent Activity
+            </h3>
+            <div class="space-y-4">
+                <div class="flex items-start space-x-4 p-4 bg-gray-700/30 rounded-lg">
+                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white">You commented on "Best basketball courts in Jakarta"</p>
+                        <p class="text-sm text-gray-400">2 hours ago</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-700/30 rounded-lg">
+                    <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white">You booked Gelora Bung Karno Stadium for Saturday</p>
+                        <p class="text-sm text-gray-400">1 day ago</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start space-x-4 p-4 bg-gray-700/30 rounded-lg">
+                    <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white">You joined "Casual Football Match" in Senayan</p>
+                        <p class="text-sm text-gray-400">3 days ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

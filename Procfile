@@ -1,0 +1,1 @@
+web: gunicorn sosmed_PBPF08.wsgi:application --bind 0.0.0.0:$PORT

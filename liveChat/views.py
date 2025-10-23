@@ -12,6 +12,11 @@ import uuid
 import json
 
 # Create your views here.
+@login_required
+def main_chat(request: HttpRequest):
+    """Main chat page showing groups and chat interface."""
+    return render(request, 'liveChat/main.html')
+
 def testing(request: HttpRequest):
     return JsonResponse({
         "message": "hello"
@@ -23,6 +28,8 @@ def operate_group(request: HttpRequest, group_id: uuid = ''):
     match request.method:
         case "GET":
             return operate_group_get(request.user, group_id)
+        case "POST":
+            return operate_group_post(request)
         case "PATCH":
             return operate_group_patch(request, group_id)
         case "DELETE":
@@ -58,6 +65,15 @@ def operate_group_patch(request: HttpRequest, group_id: uuid):
         group.name = data['name']
     group.save()
     return HttpResponse(status=204)
+
+def operate_group_post(request: HttpRequest):
+    """Create a new group."""
+    data = json.loads(request.body)
+    group = Group(name=data['name'])
+    if 'description' in data:
+        group.description = data['description']
+    group.save()
+    return JsonResponse({'success': True, 'message': 'Group created successfully'}, status=201)
 
 def operate_group_delete(user: CustomUser, group_id: uuid = ''):
     if (user.role != 'admin'):

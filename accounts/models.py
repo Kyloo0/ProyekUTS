@@ -10,6 +10,22 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=255, primary_key=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user', blank=True)
 
+    # Additional profile fields
+    bio = models.TextField(blank=True, null=True)
+    favorite_sport = models.CharField(max_length=50, blank=True, null=True)
+    skill_level = models.CharField(max_length=20, choices=[
+        ('beginner', 'Beginner'),
+        ('intermediate', 'Intermediate'),
+        ('advanced', 'Advanced'),
+        ('expert', 'Expert')
+    ], blank=True, null=True)
+
+    # Activity tracking fields
+    threads_created = models.PositiveIntegerField(default=0)
+    matches_joined = models.PositiveIntegerField(default=0)
+    venues_booked = models.PositiveIntegerField(default=0)
+    chat_groups = models.PositiveIntegerField(default=0)
+
     @property
     def participation(self):
         participations = self.participations.all()

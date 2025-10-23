@@ -79,3 +79,35 @@ def admin_delete_user(request, user_id):
 def logout_ajax(request):
     logout(request)
     return JsonResponse({'success': True})
+
+@login_required
+def profile_page(request):
+    """Render user profile page."""
+    return render(request, 'accounts/profile.html')
+
+@require_POST
+@csrf_exempt
+@login_required
+def update_profile(request):
+    """Update user profile via AJAX."""
+    try:
+        data = json.loads(request.body)
+        user = request.user
+
+        # Update user fields
+        if 'username' in data:
+            user.username = data['username']
+        if 'email' in data:
+            user.email = data['email']
+        if 'bio' in data:
+            user.bio = data['bio']
+        if 'favorite_sport' in data:
+            user.favorite_sport = data['favorite_sport']
+        if 'skill_level' in data:
+            user.skill_level = data['skill_level']
+
+        user.save()
+        return JsonResponse({'success': True, 'message': 'Profile updated successfully'})
+
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}, status=400)

@@ -28,4 +28,5 @@ urlpatterns = [
     path('threads/', include('threads.urls', namespace='threads')),
     path('booking-venue/', include('booking_venue.urls', namespace='booking_venue')),
     path('', views.home, name="home"),
+    path('dashboard/', include('accounts.urls', namespace='dashboard')),
 ]
